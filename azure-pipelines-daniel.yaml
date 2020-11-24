@@ -71,5 +71,5 @@ jobs:
   - script: |
       bin/piper version
       mv $(Pipeline.Workspace)/BAS_Sample_App.mtar .
-      bin/piper cloudFoundryDeploy --org EngSrvDemos_cdesdemo --space demoApp --username '$(USER)' --password '$(PASSWD)' --apiEndpoint https://api.cf.eu10.hana.ondemand.com --mtaPath BAS_Sample_App.mtar --deployTool mtaDeployPlugin
+      bin/piper cloudFoundryDeploy --org EngSrvDemos_cdesdemo --space demoApp --username '$(USER)' --password '$(PASSWD)' --apiEndpoint $(DEPLOY_URI) --mtaPath BAS_Sample_App.mtar --deployTool mtaDeployPlugin
     displayName: 'Perform cf deploy'
