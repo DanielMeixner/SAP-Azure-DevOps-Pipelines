@@ -1,0 +1,26 @@
+{
+  "name": "HTML5Module",
+  "version": "0.0.1",
+  "devDependencies": {
+    "@sapui5/ts-types": "1.71.x",
+    "@sap/ui5-builder-webide-extension": "1.0.x",
+    "bestzip": "2.1.4",
+    "rimraf": "3.0.2",
+    "karma": "^5.0.4",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "^2.0.2",
+    "karma-ui5": "^2.1.0"
+  },
+  "scripts": {
+    "build": "npm run clean && ui5 build --include-task=generateManifestBundle generateCachebusterInfo && npm run zip",
+    "zip": "cd dist && npx bestzip ../HTML5Module-content.zip *",
+    "clean":"npx rimraf HTML5Module-content.zip dist",
+    "karma-ci": "karma start karma-ci.conf.js",
+    "test": "npm run karma-ci"
+  },
+  "ui5": {
+    "dependencies": [
+      "@sap/ui5-builder-webide-extension"
+    ]
+  }
+}
