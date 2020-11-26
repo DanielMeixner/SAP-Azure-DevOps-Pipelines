@@ -64,7 +64,7 @@ stages:
 
   # deploy artifact to DEV stage
   - stage: DeployToDev
-    dependsOn: Build
+   
     jobs:
     - job: downloadPiper
       steps:        
