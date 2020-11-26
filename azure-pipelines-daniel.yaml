@@ -67,7 +67,7 @@ stages:
     dependsOn: Build
     jobs:   
     - deployment: DevStage    
-      environment: SAPDev.Dev
+      environment: SAPDev
       pool:
         vmImage: 'ubuntu-latest'
       container:
