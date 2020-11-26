@@ -7,7 +7,10 @@
     "@sap/eslint-plugin-ui5-jsdocs": "2.0.x",
     "@sapui5/ts-types": "1.71.x",
     "bestzip": "2.1.4",
-    "rimraf": "3.0.2"
+    "rimraf": "3.0.2",
+    "gulp": "^3.9.0",
+    "gulp-mocha": "^2.2.0",
+    "mocha-junit-reporter": "^1.12.0"
   },
   "ui5": {
     "dependencies": [
