@@ -6,6 +6,7 @@
 trigger:
 - master
 
+
 jobs:
 # download piper and put it into cache
 - job: downloadPiper
