@@ -63,8 +63,8 @@ jobs:
     displayName: 'Publish mtar'
 
 
-# deploy artifact
-- job: piperCfDeploy
+# deploy artifact to DEV stage
+- job: piperCfDeploytoDev
   dependsOn: piperMta
   pool:
     vmImage: 'ubuntu-latest'
@@ -91,7 +91,7 @@ jobs:
     displayName: 'Perform cf deploy'
 
 # deploy artifact to prod
-- job: piperCfDeploy
+- job: piperCfDeploytoProd
   dependsOn: piperMta
   pool:
     vmImage: 'ubuntu-latest'
