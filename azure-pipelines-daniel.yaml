@@ -63,7 +63,7 @@ stages:
         displayName: 'Publish mtar'
 
   # deploy artifact to DEV stage
-  - stage: DeployToDev   
+  - stage: Dev   
     dependsOn: Build
     jobs:   
     - deployment: DevStage    
@@ -96,8 +96,8 @@ stages:
                 bin/piper cloudFoundryDeploy --org $(org) --space $(space) --username '$(USER)' --password '$(PASSWD)' --apiEndpoint $(DEPLOY_URI) --mtaPath BAS_Sample_App.mtar --deployTool mtaDeployPlugin
               displayName: 'Perform cf deploy'
   # deploy artifact to QA stage
-  - stage: DeployToQA   
-    dependsOn: DeployToDev
+  - stage: QA   
+    dependsOn: Dev
     jobs:   
     - deployment: QAStage    
       environment: SAP-QA
@@ -130,8 +130,8 @@ stages:
               displayName: 'Perform cf deploy'
   
   # deploy artifact to Prod stage
-  - stage: DeployToProd   
-    dependsOn: DeployToQA
+  - stage: Production   
+    dependsOn: QA
     jobs:   
     - deployment: ProdStage    
       environment: SAP-Prod
@@ -164,7 +164,7 @@ stages:
               displayName: 'Perform cf deploy'
 
   # deploy artifact to Perf stage
-  - stage: DeployToPerf   
+  - stage: PerfTest   
     dependsOn: DeployToDev
     jobs:   
     - deployment: PerfStage    
