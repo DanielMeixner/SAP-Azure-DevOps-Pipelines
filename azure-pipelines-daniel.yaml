@@ -68,6 +68,11 @@ stages:
   #   jobs:
     - job: downloadPiper2
       dependsOn: piperMta
+      pool:
+        vmImage: 'ubuntu-latest'
+      container:
+        image: devxci/mbtci
+        options: -u 0
       steps:        
         - task: DownloadPipelineArtifact@2
         # refer to artifact built previously
