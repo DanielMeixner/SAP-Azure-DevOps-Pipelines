@@ -64,42 +64,36 @@ stages:
 
   # deploy artifact to DEV stage
   - stage: DeployToDev   
-    jobs:
-    - job: downloadPiper2
-      dependsOn: piperMta
-      pool:
-        vmImage: 'ubuntu-latest'
-      container:
-        image: devxci/mbtci
-        options: -u 0
-      steps:        
-        - task: DownloadPipelineArtifact@2
-        # refer to artifact built previously
-          inputs:
-            artifact: mtar
-        # get piper bin from cache
-        - task: Cache@2
-          inputs:
-            key: piper-go-official
-            path: bin
-          displayName: resolve piper go binary from cache
-      
-    - job: piperCfDeploytoDev
-      dependsOn: downloadPiper2
+    dependsOn: Build
+    jobs:   
+    - deployment: DevStage    
       pool:
         vmImage: 'ubuntu-latest'
       container:
         image: ppiper/cf-cli
         options: -u 0
-      steps:
-      - checkout: none
-      
-      # deploy using cf deploy
-      - script: |
-          bin/piper version
-          mv $(Pipeline.Workspace)/BAS_Sample_App.mtar .
-          bin/piper cloudFoundryDeploy --org $(org) --space $(space) --username '$(USER)' --password '$(PASSWD)' --apiEndpoint $(DEPLOY_URI) --mtaPath BAS_Sample_App.mtar --deployTool mtaDeployPlugin
-        displayName: 'Perform cf deploy'
+      strategy:
+        runOnce:    #rolling, canary are the other strategies that are supported
+          deploy:
+            steps:
+            - checkout: none
+            - task: DownloadPipelineArtifact@2
+            # refer to artifact built previously
+              inputs:
+                artifact: mtar
+            # get piper bin from cache
+            - task: Cache@2
+              inputs:
+                key: piper-go-official
+                path: bin
+              displayName: resolve piper go binary from cache
+            
+            # deploy using cf deploy
+            - script: |
+                bin/piper version
+                mv $(Pipeline.Workspace)/BAS_Sample_App.mtar .
+                bin/piper cloudFoundryDeploy --org $(org) --space $(space) --username '$(USER)' --password '$(PASSWD)' --apiEndpoint $(DEPLOY_URI) --mtaPath BAS_Sample_App.mtar --deployTool mtaDeployPlugin
+              displayName: 'Perform cf deploy'
 
   # # deploy artifact to prod
   # - stage: DeployToProd
