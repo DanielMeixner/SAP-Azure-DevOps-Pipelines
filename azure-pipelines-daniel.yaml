@@ -96,7 +96,7 @@ stages:
                 bin/piper cloudFoundryDeploy --org $(org) --space $(space) --username '$(USER)' --password '$(PASSWD)' --apiEndpoint $(DEPLOY_URI) --mtaPath BAS_Sample_App.mtar --deployTool mtaDeployPlugin
               displayName: 'Perform cf deploy'
   # deploy artifact to QA stage
-  - stage: DeployToDev   
+  - stage: DeployToQA   
     dependsOn: DeployToDev
     jobs:   
     - deployment: QAStage    
@@ -129,8 +129,8 @@ stages:
                 bin/piper cloudFoundryDeploy --org $(org) --space $(qaspace) --username '$(USER)' --password '$(PASSWD)' --apiEndpoint $(DEPLOY_URI) --mtaPath BAS_Sample_App.mtar --deployTool mtaDeployPlugin
               displayName: 'Perform cf deploy'
   
-  # deploy artifact to DEV stage
-  - stage: DeployToDev   
+  # deploy artifact to Prod stage
+  - stage: DeployToProd   
     dependsOn: DeployToQA
     jobs:   
     - deployment: ProdStage    
