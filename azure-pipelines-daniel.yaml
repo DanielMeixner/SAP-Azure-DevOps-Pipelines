@@ -121,6 +121,8 @@ stages:
           path: bin
         displayName: resolve piper go binary from cache
       # deploy using cf deploy
+    - job: 
+      steps:
       - script: |
           bin/piper version
           mv $(Pipeline.Workspace)/BAS_Sample_App.mtar .
