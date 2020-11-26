@@ -65,6 +65,19 @@ stages:
   # deploy artifact to DEV stage
   - stage: DeployToDev
     jobs:
+    - job: downloadPiper
+      steps:        
+        - task: DownloadPipelineArtifact@2
+        # refer to artifact built previously
+          inputs:
+            artifact: mtar
+        # get piper bin from cache
+        - task: Cache@2
+          inputs:
+            key: piper-go-official
+            path: bin
+          displayName: resolve piper go binary from cache
+      
     - job: piperCfDeploytoDev
       dependsOn: piperMta
       pool:
@@ -74,16 +87,7 @@ stages:
         options: -u 0
       steps:
       - checkout: none
-      # refer to artifact built previously
-      - task: DownloadPipelineArtifact@2
-        inputs:
-          artifact: mtar
-      # get piper bin from cache
-      - task: Cache@2
-        inputs:
-          key: piper-go-official
-          path: bin
-        displayName: resolve piper go binary from cache
+      
       # deploy using cf deploy
       - script: |
           bin/piper version
@@ -94,6 +98,12 @@ stages:
   # deploy artifact to prod
   - stage: DeployToProd
     jobs:
+    - job: downloadartifact
+      steps:
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          artifact: mtar
+
     - job: piperCfDeploytoProd
       dependsOn: piperMta
       pool:
@@ -103,10 +113,7 @@ stages:
         options: -u 0
       steps:
       - checkout: none
-      # refer to artifact built previously
-      - task: DownloadPipelineArtifact@2
-        inputs:
-          artifact: mtar
+     
       # get piper bin from cache
       - task: Cache@2
         inputs:
