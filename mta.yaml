@@ -2,7 +2,7 @@ _schema-version: "3.2"
 ID: BAS_Sample_App
 version: 0.0.1
 modules:
-- name: bas-sample-app-approuter
+- name: dsag-sample-app
   type: approuter.nodejs
   path: bas-sample-app-approuter
   requires:
