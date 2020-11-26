@@ -63,9 +63,9 @@ stages:
         displayName: 'Publish mtar'
 
   # deploy artifact to DEV stage
-  - stage: DeployToDev
+  # - stage: DeployToDev
    
-    jobs:
+  #   jobs:
     - job: downloadPiper
       steps:        
         - task: DownloadPipelineArtifact@2
@@ -96,10 +96,10 @@ stages:
           bin/piper cloudFoundryDeploy --org $(org) --space $(space) --username '$(USER)' --password '$(PASSWD)' --apiEndpoint $(DEPLOY_URI) --mtaPath BAS_Sample_App.mtar --deployTool mtaDeployPlugin
         displayName: 'Perform cf deploy'
 
-  # deploy artifact to prod
-  - stage: DeployToProd
-    dependsOn: DeployToDev
-    jobs:
+  # # deploy artifact to prod
+  # - stage: DeployToProd
+  #   dependsOn: DeployToDev
+    # jobs:
     - job: downloadartifact
       steps:
       - task: DownloadPipelineArtifact@2
