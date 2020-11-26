@@ -55,6 +55,16 @@ stages:
           bin/piper version
           bin/piper mtaBuild
         displayName: 'Perform mta build'  
+
+      # test
+      - script: mocha test --reporter mocha-junit-reporter
+
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        inputs:
+          testRunner: JUnit
+          testResultsFiles: '**/TEST-RESULTS.xml'
+
       # publish artifact 
       - task: PublishPipelineArtifact@1
         inputs:
