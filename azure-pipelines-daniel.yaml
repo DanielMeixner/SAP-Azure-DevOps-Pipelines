@@ -67,7 +67,7 @@ stages:
    
   #   jobs:
     - job: downloadPiper2
-      dependsOn: piperMta
+      dependsOn: downloadPiper1
       steps:        
         - task: DownloadPipelineArtifact@2
         # refer to artifact built previously
