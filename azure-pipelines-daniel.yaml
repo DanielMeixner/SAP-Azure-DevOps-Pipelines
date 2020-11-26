@@ -64,6 +64,7 @@ stages:
 
   # deploy artifact to DEV stage
   - stage: DeployToDev
+    dependsOn: Build
     jobs:
     - job: downloadPiper
       steps:        
@@ -79,7 +80,7 @@ stages:
           displayName: resolve piper go binary from cache
       
     - job: piperCfDeploytoDev
-      dependsOn: piperMta
+      dependsOn: downloadPiper      
       pool:
         vmImage: 'ubuntu-latest'
       container:
@@ -97,6 +98,7 @@ stages:
 
   # deploy artifact to prod
   - stage: DeployToProd
+    dependsOn: DeployToDev
     jobs:
     - job: downloadartifact
       steps:
@@ -104,8 +106,7 @@ stages:
         inputs:
           artifact: mtar
 
-    - job: piperCfDeploytoProd
-      dependsOn: piperMta
+    - job: piperCfDeploytoProd      
       pool:
         vmImage: 'ubuntu-latest'
       container:
