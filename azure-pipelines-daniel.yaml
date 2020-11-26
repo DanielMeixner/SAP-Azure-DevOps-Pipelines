@@ -165,7 +165,7 @@ stages:
 
   # deploy artifact to Perf stage
   - stage: PerfTest   
-    dependsOn: DeployToDev
+    dependsOn: Dev
     jobs:   
     - deployment: PerfStage    
       environment: SAP-Perf
@@ -194,7 +194,7 @@ stages:
             - script: |
                 bin/piper version
                 mv $(Pipeline.Workspace)/BAS_Sample_App.mtar .
-                bin/piper cloudFoundryDeploy --org $(org) --space $(prodspace) --username '$(USER)' --password '$(PASSWD)' --apiEndpoint $(DEPLOY_URI) --mtaPath BAS_Sample_App.mtar --deployTool mtaDeployPlugin
+                bin/piper cloudFoundryDeploy --org $(org) --space $(perfspace) --username '$(USER)' --password '$(PASSWD)' --apiEndpoint $(DEPLOY_URI) --mtaPath BAS_Sample_App.mtar --deployTool mtaDeployPlugin
               displayName: 'Perform cf deploy'
 
   # # deploy artifact to prod
