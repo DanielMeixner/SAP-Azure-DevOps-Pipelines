@@ -6,10 +6,6 @@
 trigger:
 - master
 
-
-- task: Cache@2
-  inputs:
-
 jobs:
 # download piper and put it into cache
 - job: downloadPiper
