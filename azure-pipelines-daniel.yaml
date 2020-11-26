@@ -16,12 +16,14 @@ jobs:
     options: -u 0
   steps:
   - checkout: none
+  # check cache for piper
   - task: Cache@2
     inputs:
       key: piper-go-official
       path: bin
       cacheHitVar: FOUND_PIPER
     displayName: Cache piper go binary
+  # download if piper not in cache
   - script: |
         mkdir -p bin
         curl -L --output bin/piper https://github.com/SAP/jenkins-library/releases/download/v1.73.0/piper
@@ -40,6 +42,7 @@ jobs:
     image: devxci/mbtci
     options: -u 0
   steps:
+  
   # get binary from cache
   - task: Cache@2
     inputs:
@@ -50,13 +53,14 @@ jobs:
   - script: |
       bin/piper version
       bin/piper mtaBuild
-    displayName: 'Perform mta build'
+    displayName: 'Perform mta build'  
   # publish artifact 
   - task: PublishPipelineArtifact@1
     inputs:
       targetPath: $(System.DefaultWorkingDirectory)/BAS_Sample_App.mtar
       artifactName: mtar
     displayName: 'Publish mtar'
+
 
 # deploy artifact
 - job: piperCfDeploy
