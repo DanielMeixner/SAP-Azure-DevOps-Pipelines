@@ -9,7 +9,7 @@ stages:
   - stage: Build
     jobs:
     # download piper and put it into cache
-    - job: downloadPiper
+    - job: downloadPiper1
       pool:
         vmImage: 'ubuntu-latest'
       container:
@@ -36,7 +36,7 @@ stages:
 
     # build piper mta and publish artifact
     - job: piperMta
-      dependsOn: downloadPiper
+      dependsOn: downloadPiper1
       pool:
         vmImage: 'ubuntu-latest'
       container:
@@ -66,7 +66,7 @@ stages:
   # - stage: DeployToDev
    
   #   jobs:
-    - job: downloadPiper
+    - job: downloadPiper2
       steps:        
         - task: DownloadPipelineArtifact@2
         # refer to artifact built previously
@@ -80,7 +80,7 @@ stages:
           displayName: resolve piper go binary from cache
       
     - job: piperCfDeploytoDev
-      dependsOn: downloadPiper      
+      dependsOn: downloadPiper2
       pool:
         vmImage: 'ubuntu-latest'
       container:
