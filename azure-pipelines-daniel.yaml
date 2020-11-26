@@ -6,7 +6,12 @@
 trigger:
 - master
 
+
+- task: Cache@2
+  inputs:
+
 jobs:
+# download piper and put it into cache
 - job: downloadPiper
   pool:
     vmImage: 'ubuntu-latest'
@@ -29,6 +34,8 @@ jobs:
     displayName: 'Download Piper'
   - script: bin/piper version
     displayName: 'Piper Version'
+
+# build piper mta and publish artifact
 - job: piperMta
   dependsOn: downloadPiper
   pool:
@@ -37,20 +44,25 @@ jobs:
     image: devxci/mbtci
     options: -u 0
   steps:
+  # get binary from cache
   - task: Cache@2
     inputs:
       key: piper-go-official
       path: bin
     displayName: resolve piper go binary from cache
+  # build mta
   - script: |
       bin/piper version
       bin/piper mtaBuild
     displayName: 'Perform mta build'
+  # publish artifact 
   - task: PublishPipelineArtifact@1
     inputs:
       targetPath: $(System.DefaultWorkingDirectory)/BAS_Sample_App.mtar
       artifactName: mtar
     displayName: 'Publish mtar'
+
+# deploy artifact
 - job: piperCfDeploy
   dependsOn: piperMta
   pool:
@@ -60,16 +72,19 @@ jobs:
     options: -u 0
   steps:
   - checkout: none
+  # refer to artifact built previously
   - task: DownloadPipelineArtifact@2
     inputs:
       artifact: mtar
+  # get piper bin from cache
   - task: Cache@2
     inputs:
       key: piper-go-official
       path: bin
     displayName: resolve piper go binary from cache
+  # deploy using cf deploy
   - script: |
       bin/piper version
       mv $(Pipeline.Workspace)/BAS_Sample_App.mtar .
-      bin/piper cloudFoundryDeploy --org 3346a69ctrial --space dev --username '$(USER)' --password '$(PASSWD)' --apiEndpoint $(DEPLOY_URI) --mtaPath BAS_Sample_App.mtar --deployTool mtaDeployPlugin
+      bin/piper cloudFoundryDeploy --org $(org) --space $(space) --username '$(USER)' --password '$(PASSWD)' --apiEndpoint $(DEPLOY_URI) --mtaPath BAS_Sample_App.mtar --deployTool mtaDeployPlugin
     displayName: 'Perform cf deploy'
