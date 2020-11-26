@@ -63,9 +63,8 @@ stages:
         displayName: 'Publish mtar'
 
   # deploy artifact to DEV stage
-  # - stage: DeployToDev
-   
-  #   jobs:
+  - stage: DeployToDev   
+    jobs:
     - job: downloadPiper2
       dependsOn: piperMta
       pool:
