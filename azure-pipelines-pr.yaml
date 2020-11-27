@@ -41,6 +41,7 @@ jobs:
     vmImage: 'ubuntu-latest'
   steps:
   - script: |
+      apt-get update && apt-get install -y chromium-browser
       npm i chromedriver --chromedriver_version=LATEST --save-dev  
       export CHROME_BIN='/usr/bin/chromium'
       npm install
