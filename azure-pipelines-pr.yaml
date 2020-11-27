@@ -38,9 +38,8 @@ jobs:
 # Unit Tests
 - job: runUnitTests
   pool:
-    vmImage: 'ubuntu-latest'
-  container:
-    image: 'angular/ngcontainer:latest'
+    vmImage: 'windows-latest'
+  
   steps:
   - script: |
       apt-get update && apt-get install -y chromium-browser
