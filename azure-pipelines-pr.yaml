@@ -55,6 +55,9 @@ jobs:
       bin/piper version
       bin/piper mtaBuild
     displayName: 'Perform mta build'  
+  # test mta
+  - script: npm test
+    workingDirectory: HTML5Module
   # publish artifact 
   - task: PublishPipelineArtifact@1
     inputs:
