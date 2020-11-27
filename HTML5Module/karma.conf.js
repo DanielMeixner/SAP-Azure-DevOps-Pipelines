@@ -2,7 +2,7 @@ module.exports = function(config) {
 	"use strict";
 	config.set({
 		frameworks: ["ui5"],
-		browsers: ["Chrome"],
+		browsers: ["ChromeHeadless"],
 		browserConsoleLogOptions: {
 			level: "error"
 		}
