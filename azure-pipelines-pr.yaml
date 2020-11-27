@@ -38,11 +38,11 @@ jobs:
 # Unit Tests
 - job: runUnitTests
   pool:
-    vmImage: 'windows-latest'
-  
+    vmImage: 'ubuntu-latest'  
+  container:
+    image: markadams/chromium-xvfb-js
   steps:
-  - script: |
-      apt-get update && apt-get install -y chromium-browser
+  - script: |      
       npm i chromedriver --chromedriver_version=LATEST --save-dev  
       export CHROME_BIN='/usr/bin/chromium'
       npm install
