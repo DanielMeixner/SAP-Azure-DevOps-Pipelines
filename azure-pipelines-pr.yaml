@@ -38,13 +38,9 @@ jobs:
 # Unit Tests
 - job: runUnitTests
   pool:
-    vmImage: 'ubuntu-latest'  
-  container: 'node:latest'
+    vmImage: 'ubuntu-latest'    
   steps:
   - script: |      
-      apt-get update && apt-get install google-chrome
-      npm i chromedriver --chromedriver_version=LATEST --save-dev  
-      export CHROME_BIN='/usr/bin/chromium'
       npm install
       npm test    
     workingDirectory: HTML5Module
