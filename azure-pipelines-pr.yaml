@@ -56,8 +56,15 @@ jobs:
       bin/piper mtaBuild
     displayName: 'Perform mta build'  
   # test mta
-  - script: npm test
+  - script: |
+      npm install
+      npm test    
     workingDirectory: HTML5Module
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: '**/TEST-RESULTS.xml'
   # publish artifact 
   - task: PublishPipelineArtifact@1
     inputs:
