@@ -10,6 +10,7 @@ trigger:
 jobs:
 # download piper and put it into cache
 - job: downloadPiper
+  dependsOn: runUnitTests
   pool:
     vmImage: 'ubuntu-latest'
   container:
@@ -40,6 +41,7 @@ jobs:
     vmImage: 'ubuntu-latest'
   steps:
   - script: |
+      npm i chromedriver --chromedriver_version=LATEST --save-dev  
       export CHROME_BIN='/usr/bin/chromium'
       npm install
       npm test    
