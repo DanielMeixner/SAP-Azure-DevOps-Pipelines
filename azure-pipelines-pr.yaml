@@ -42,13 +42,19 @@ jobs:
   steps:
   - script: |      
       npm install
-      npm test    
+      npm test --reporter karma-junit-reporter
     workingDirectory: HTML5Module
   - task: PublishTestResults@2
     condition: succeededOrFailed()
     inputs:
       testRunner: JUnit
       testResultsFiles: '**/TEST-RESULTS.xml'
+  - task: PublishCodeCoverageResults@1
+    inputs: 
+      codeCoverageTool: Cobertura # or JaCoCo
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
+      reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
+  
 
 # build piper mta and publish artifact
 - job: piperMta
