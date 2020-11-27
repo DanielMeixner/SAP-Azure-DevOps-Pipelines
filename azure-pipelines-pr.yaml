@@ -57,6 +57,7 @@ jobs:
     displayName: 'Perform mta build'  
   # test mta
   - script: |
+      export CHROME_BIN='/usr/bin/chromium'
       npm install
       npm test    
     workingDirectory: HTML5Module
