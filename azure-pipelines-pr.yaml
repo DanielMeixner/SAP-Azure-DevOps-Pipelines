@@ -41,6 +41,7 @@ jobs:
     vmImage: 'ubuntu-latest'    
   steps:
   - script: |      
+      npm install karma-junit-reporter
       npm install
       npm test --reporter karma-junit-reporter
     workingDirectory: HTML5Module
