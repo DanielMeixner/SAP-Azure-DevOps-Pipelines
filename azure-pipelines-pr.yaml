@@ -34,6 +34,22 @@ jobs:
   - script: bin/piper version
     displayName: 'Piper Version'
 
+# Unit Tests
+- job: runUnitTests
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - script: |
+      export CHROME_BIN='/usr/bin/chromium'
+      npm install
+      npm test    
+    workingDirectory: HTML5Module
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: '**/TEST-RESULTS.xml'
+
 # build piper mta and publish artifact
 - job: piperMta
   dependsOn: downloadPiper
@@ -55,17 +71,8 @@ jobs:
       bin/piper version
       bin/piper mtaBuild
     displayName: 'Perform mta build'  
-  # test mta
-  - script: |
-      export CHROME_BIN='/usr/bin/chromium'
-      npm install
-      npm test    
-    workingDirectory: HTML5Module
-  - task: PublishTestResults@2
-    condition: succeededOrFailed()
-    inputs:
-      testRunner: JUnit
-      testResultsFiles: '**/TEST-RESULTS.xml'
+  
+ 
   # publish artifact 
   - task: PublishPipelineArtifact@1
     inputs:
