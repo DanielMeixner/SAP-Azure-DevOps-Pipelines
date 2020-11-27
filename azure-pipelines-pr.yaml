@@ -39,7 +39,7 @@ jobs:
 - job: runUnitTests
   pool:
     vmImage: 'ubuntu-latest'  
-  container: 'nodejs-latest'
+  container: 'node'
   steps:
   - script: |      
       apt-get update && apt-get install google-chrome
