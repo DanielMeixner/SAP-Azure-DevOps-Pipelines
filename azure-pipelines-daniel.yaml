@@ -198,36 +198,4 @@ stages:
                 bin/piper cloudFoundryDeploy --org $(org) --space $(perfspace) --username '$(USER)' --password '$(PASSWD)' --apiEndpoint $(DEPLOY_URI) --mtaPath BAS_Sample_App.mtar --deployTool mtaDeployPlugin
               displayName: 'Perform cf deploy'
 
-  # # deploy artifact to prod
-  # - stage: DeployToProd
-  #   dependsOn: DeployToDev
-    # # jobs:
-    # - job: downloadartifact
-    #   steps:
-    #   - task: DownloadPipelineArtifact@2
-    #     inputs:
-    #       artifact: mtar
-
-    # - job: piperCfDeploytoProd      
-    #   pool:
-    #     vmImage: 'ubuntu-latest'
-    #   container:
-    #     image: ppiper/cf-cli
-    #     options: -u 0
-    #   steps:
-    #   - checkout: none
-     
-    #   # get piper bin from cache
-    #   - task: Cache@2
-    #     inputs:
-    #       key: piper-go-official
-    #       path: bin
-    #     displayName: resolve piper go binary from cache
-    #   # deploy using cf deploy
-    # - job: 
-    #   steps:
-    #   - script: |
-    #       bin/piper version
-    #       mv $(Pipeline.Workspace)/BAS_Sample_App.mtar .
-    #       bin/piper cloudFoundryDeploy --org $(org) --space $(prodspace)--username '$(USER)' --password '$(PASSWD)' --apiEndpoint $(DEPLOY_URI) --mtaPath BAS_Sample_App.mtar --deployTool mtaDeployPlugin
-    #     displayName: 'Perform cf deploy'
+ 
